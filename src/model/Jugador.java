@@ -7,10 +7,12 @@ public class Jugador {
     private LocalDate birthday;
     private int canastas;
     private int asistencias;
-    private String rebotes;
+    private int rebotes;
     private String posicion;
     private Equipo equipo;
-    public Jugador(String nombre, LocalDate birthday, int canastas, int asistencias, String rebotes, String posicion, Equipo equipo) {
+
+    public Jugador() {}
+    public Jugador(String nombre, LocalDate birthday, int canastas, int asistencias, int rebotes, String posicion, Equipo equipo) {
         this.nombre = nombre;
         this.birthday = birthday;
         this.canastas = canastas;
@@ -23,8 +25,8 @@ public class Jugador {
     public void setEquipo(Equipo equipo) {this.equipo = equipo;}
     public String getPosicion() {return posicion;}
     public void setPosicion(String posicion) {this.posicion = posicion;}
-    public String getRebotes() {return rebotes;}
-    public void setRebotes(String rebotes) {this.rebotes = rebotes;}
+    public int getRebotes() {return rebotes;}
+    public void setRebotes(int rebotes) {this.rebotes = rebotes;}
     public int getAsistencias() {return asistencias;}
     public void setAsistencias(int asistencias) {this.asistencias = asistencias;}
     public int getCanastas() {return canastas;}

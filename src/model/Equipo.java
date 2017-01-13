@@ -6,6 +6,9 @@ public class Equipo {
     private String nombre;
     private LocalDate fecha;
     private String localidad;
+
+    public Equipo() {}
+    public Equipo(String nombre) {this.nombre = nombre;}
     public Equipo(String nombre, LocalDate fecha, String localidad) {
         this.nombre = nombre;
         this.fecha = fecha;
