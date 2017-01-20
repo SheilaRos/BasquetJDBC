@@ -35,4 +35,8 @@ public class Jugador {
     public void setBirthday(LocalDate birthday) {this.birthday = birthday;}
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
+    @Override
+    public String toString() {
+        return "Jugador{" + "nombre=" + nombre + ", birthday=" + birthday + ", canastas=" + canastas + ", asistencias=" + asistencias + ", rebotes=" + rebotes + ", posicion=" + posicion + ", equipo=" + equipo.getNombre() + '}';
+    }   
 }

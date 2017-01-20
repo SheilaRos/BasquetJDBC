@@ -12,12 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Equipo;
+import model.Estadisticas;
 import model.Jugador;
 
 public class BasquetJDBC {
     private Connection connection;
     public void conectar() throws SQLException{
-        String url = "jdbc:mysql://localhost:3306/baskets";
+        String url = "jdbc:mysql://localhost:3306/basket";
         String usr = "root";
         String pass = "";
         connection = DriverManager.getConnection(url, usr, pass);
@@ -50,7 +51,7 @@ public class BasquetJDBC {
         ps.close();
     }
     public void deletePlayer(String nombre) throws SQLException{
-        String delete = "delete from player where nombre = '" + nombre+"';";
+        String delete = "delete from player where name = '" + nombre+"';";
         Statement st = connection.createStatement();
         st.executeUpdate(delete);
         st.close();
@@ -69,11 +70,18 @@ public class BasquetJDBC {
         ps.close();
     }
     public void updateTeam(Equipo e) throws SQLException{
-        String update = "update player set name=?, city=?, creation=? where name = '" + e.getNombre()+"';";
+        String update = "update team set name=?, city=?, creation=? where name = '" + e.getNombre()+"';";
         PreparedStatement ps = connection.prepareStatement(update);
         ps.setString(1, e.getNombre());
         ps.setString(2, e.getLocalidad());
         ps.setDate(3, java.sql.Date.valueOf(e.getFecha()));
+        ps.executeUpdate();
+        ps.close();
+    }
+    public void updatePlayerTeam(String nombre, Equipo e) throws SQLException{
+        String update = "update player set  team=? where name = '" + nombre+"';";
+        PreparedStatement ps = connection.prepareStatement(update);
+        ps.setString(1, e.getNombre());
         ps.executeUpdate();
         ps.close();
     }
@@ -88,7 +96,7 @@ public class BasquetJDBC {
             j.setCanastas(rs.getInt("nbaskets"));
             j.setAsistencias(rs.getInt("nassists"));
             j.setRebotes(rs.getInt("nrebounds"));
-            j.setPosicion(rs.getNString("position"));
+            j.setPosicion(rs.getString("position"));
             Equipo e = new Equipo(rs.getString("team"));
             j.setEquipo(e);
         }
@@ -109,7 +117,7 @@ public class BasquetJDBC {
             j.setCanastas(rs.getInt("nbaskets"));
             j.setAsistencias(rs.getInt("nassists"));
             j.setRebotes(rs.getInt("nrebounds"));
-            j.setPosicion(rs.getNString("position"));
+            j.setPosicion(rs.getString("position"));
             e.setNombre(rs.getString("team"));
             j.setEquipo(e);
             jugadores.add(j);
@@ -129,7 +137,7 @@ public class BasquetJDBC {
             j.setCanastas(rs.getInt("nbaskets"));
             j.setAsistencias(rs.getInt("nassists"));
             j.setRebotes(rs.getInt("nrebounds"));
-            j.setPosicion(rs.getNString("position"));
+            j.setPosicion(rs.getString("position"));
             e.setNombre(rs.getString("team"));
             j.setEquipo(e);
             jugadores.add(j);
@@ -149,7 +157,7 @@ public class BasquetJDBC {
             j.setCanastas(rs.getInt("nbaskets"));
             j.setAsistencias(rs.getInt("nassists"));
             j.setRebotes(rs.getInt("nrebounds"));
-            j.setPosicion(rs.getNString("position"));
+            j.setPosicion(rs.getString("position"));
             e.setNombre(rs.getString("team"));
             j.setEquipo(e);
             jugadores.add(j);
@@ -169,7 +177,7 @@ public class BasquetJDBC {
             j.setCanastas(rs.getInt("nbaskets"));
             j.setAsistencias(rs.getInt("nassists"));
             j.setRebotes(rs.getInt("nrebounds"));
-            j.setPosicion(rs.getNString("position"));
+            j.setPosicion(rs.getString("position"));
             e.setNombre(rs.getString("team"));
             j.setEquipo(e);
             jugadores.add(j);
@@ -189,28 +197,38 @@ public class BasquetJDBC {
             j.setCanastas(rs.getInt("nbaskets"));
             j.setAsistencias(rs.getInt("nassists"));
             j.setRebotes(rs.getInt("nrebounds"));
-            j.setPosicion(rs.getNString("position"));
+            j.setPosicion(rs.getString("position"));
             e.setNombre(rs.getString("team"));
             j.setEquipo(e);
             jugadores.add(j);
         }
         return jugadores;
     }
-    public List<String> returnPlayersGroupByPosition() throws SQLException{
-        List<String> resultado = new ArrayList<>();
-        String query = "select position, max(nbaskets) as max1, min(nbaskets) as min1, avg(nbaskets) as avg1, max(nassists) as max2, min(nassists) as min2, avg(nassists) as avg2, max(nrebounds) as max3, min(nrebounds) as min3, avg(nrebounds) as avg3 from player groupBy position;";
+    public List<Estadisticas> returnPlayersGroupByPosition() throws SQLException{
+        List<Estadisticas> resultado = new ArrayList<>();
+        String query = "select position, max(nbaskets) as 'max1', min(nbaskets) as 'min1', avg(nbaskets) as 'avg1', max(nassists) as 'max2', min(nassists) as 'min2', avg(nassists) as 'avg2', max(nrebounds) as 'max3', min(nrebounds) as 'min3', avg(nrebounds) as 'avg3' from player group by position;";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
         while(rs.next()){
-            resultado.add(rs.getString("position")+"\n"+": máximo canastas "+rs.getInt("max1")+ ", mínimo canastas "+rs.getInt("min1")+" y AVG canastas "+rs.getDouble("avg1")+
-                    "\n"+": máximo asistencias "+rs.getInt("max2")+ ", mínimo asistencias "+rs.getInt("min2")+" y AVG asistencias "+rs.getDouble("avg2")+
-                    "\n"+": máximo rebotes "+rs.getInt("max3")+ ", mínimo rebotes "+rs.getInt("min3")+"y AVG rebotes "+rs.getDouble("avg3"));
+           Estadisticas x = new Estadisticas();
+           x.setPosition(rs.getString("position"));
+           x.setMaxCanastas(rs.getInt("max1"));
+           x.setMinCanastas(rs.getInt("min1"));
+           x.setAvgCanastas(rs.getDouble("avg1"));
+           x.setMaxAsistencias(rs.getInt("max2"));
+           x.setMinAsistencias(rs.getInt("min2"));
+           x.setAvgAsistencias(rs.getDouble("avg2"));
+           x.setMaxRebotes(rs.getInt("max3"));
+           x.setMinRebotes(rs.getInt("min3"));
+           x.setAvgRebotes(rs.getDouble("avg3"));
+           resultado.add(x);
+           
         }
         return resultado;
     }
     public List<String> returnPlayersRanking() throws SQLException{
         List<String> ranking = new ArrayList<>();
-        String query = "select name, nbaskets  from player where orderBy nbaskets;";
+        String query = "select name, nbaskets  from player order by nbaskets desc;";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
         int num = 1;
@@ -242,7 +260,7 @@ public class BasquetJDBC {
             Equipo e = new Equipo();
             e.setNombre(rs.getString("name"));
             e.setLocalidad(rs.getString("city"));
-            e.setFecha(rs.getDate("creation_date").toLocalDate());
+            e.setFecha(rs.getDate("creation").toLocalDate());
             equipos.add(e);
         }
         return equipos;
@@ -260,7 +278,7 @@ public class BasquetJDBC {
            j.setCanastas(rs.getInt("nbaskets"));
            j.setAsistencias(rs.getInt("nassists"));
            j.setRebotes(rs.getInt("nrebounds"));
-           j.setPosicion(rs.getNString("position"));
+           j.setPosicion(rs.getString("position"));
            e.setNombre(rs.getString("team"));
            j.setEquipo(e);
            jugadores.add(j);
@@ -280,7 +298,7 @@ public class BasquetJDBC {
            j.setCanastas(rs.getInt("nbaskets"));
            j.setAsistencias(rs.getInt("nassists"));
            j.setRebotes(rs.getInt("nrebounds"));
-           j.setPosicion(rs.getNString("position"));
+           j.setPosicion(rs.getString("position"));
            e.setNombre(rs.getString("team"));
            j.setEquipo(e);
            jugadores.add(j);
@@ -299,10 +317,19 @@ public class BasquetJDBC {
            j.setCanastas(rs.getInt("nbaskets"));
            j.setAsistencias(rs.getInt("nassists"));
            j.setRebotes(rs.getInt("nrebounds"));
-           j.setPosicion(rs.getNString("position"));
+           j.setPosicion(rs.getString("position"));
            e.setNombre(rs.getString("team"));
            j.setEquipo(e);
         }
         return j;
+    }
+    public void eliminarJugadores() throws SQLException{
+        String delete = "delete from player;";
+        Statement st = connection.createStatement();
+        st.executeUpdate(delete);
+        delete = "delete from team;";
+        st = connection.createStatement();
+        st.executeUpdate(delete);
+        st.close();
     }
 }
