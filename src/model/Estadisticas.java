@@ -110,7 +110,7 @@ public class Estadisticas {
     
     @Override
     public String toString() {
-        return "Estadisticas{" + "position=" + position + ", máximo canastas=" + maxCanastas + ", mínimo canastas=" + minCanastas + ", AVG canastas=" + avgCanastas + ", máximo asistencias=" + maxAsistencias + ", mínimo asistencias=" + minAsistencias + ", AVG asistencias=" + avgAsistencias + ", máximo rebotes=" + maxRebotes + ", mínimo rebotes=" + minRebotes + ", AVG rebotes=" + avgRebotes + '}';
+        return position + ":"+"\n"+" Canastas: máximo= " + maxCanastas + ", mínimo= " + minCanastas + ", AVG= " + avgCanastas + "\n"+" Asistencias: máximo=" + maxAsistencias + ", mínimo= " + minAsistencias + ", AVG= " + avgAsistencias + "\n"+" Rebotes: máximo= " + maxRebotes + ", mínimo= " + minRebotes + ", AVG= " + avgRebotes+"\n";
     }
        
 }

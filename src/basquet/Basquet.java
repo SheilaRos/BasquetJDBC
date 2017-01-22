@@ -50,8 +50,8 @@ public class Basquet {
         gestor.updateTeam(e);
         System.out.println("Equipo modificado");
         System.out.println("");
-        System.out.println("Modificar jugador Yuna de equipo Fulgencios a equipo Rivendel:");
-        gestor.updatePlayerTeam("Yuna", e);
+        System.out.println("Modificar jugador Yuna114 de equipo Fulgencios a equipo Fagrecios:");
+        gestor.updatePlayerTeam("Yuna114", e);
         System.out.println("Jugador modificado de equipo");
         System.out.println("");
         System.out.println("Borrar jugador 'Mulf'");

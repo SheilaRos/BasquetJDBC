@@ -146,7 +146,7 @@ public class BasquetJDBC {
     }
     public List<Jugador> returnPlayersAssists(int assists1, int assists2) throws SQLException{
         List<Jugador> jugadores = new ArrayList<>();
-        String query = "select * from player where nassists>"+assists1+" && nassists<"+assists2+";";
+        String query = "select * from player where nassists>="+assists1+" && nassists<="+assists2+";";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
         while(rs.next()){
