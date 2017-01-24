@@ -122,6 +122,8 @@ public class BasquetJDBC {
             j.setEquipo(e);
             jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public List<Jugador> returnPlayersBaskets(int baskets) throws SQLException{
@@ -142,6 +144,8 @@ public class BasquetJDBC {
             j.setEquipo(e);
             jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public List<Jugador> returnPlayersAssists(int assists1, int assists2) throws SQLException{
@@ -162,6 +166,8 @@ public class BasquetJDBC {
             j.setEquipo(e);
             jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public List<Jugador> returnPlayersPosition(String position) throws SQLException{
@@ -182,6 +188,8 @@ public class BasquetJDBC {
             j.setEquipo(e);
             jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public List<Jugador> returnPlayersBirthBefore(LocalDate fecha) throws SQLException{
@@ -202,6 +210,8 @@ public class BasquetJDBC {
             j.setEquipo(e);
             jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public List<Estadisticas> returnPlayersGroupByPosition() throws SQLException{
@@ -224,6 +234,8 @@ public class BasquetJDBC {
            resultado.add(x);
            
         }
+        rs.close();
+        st.close();
         return resultado;
     }
     public List<String> returnPlayersRanking() throws SQLException{
@@ -236,6 +248,8 @@ public class BasquetJDBC {
             ranking.add(num+" "+rs.getString("name")+" "+rs.getInt("nbaskets"));
             num++;
         }
+        rs.close();
+        st.close();
         return ranking;
     } 
     public int returnPlayersRankingPosition(String nombre) throws SQLException{
@@ -263,6 +277,8 @@ public class BasquetJDBC {
             e.setFecha(rs.getDate("creation").toLocalDate());
             equipos.add(e);
         }
+        rs.close();
+        st.close();
         return equipos;
     }
     public List<Jugador> returnPlayersTeam(String equipo) throws SQLException{
@@ -283,6 +299,8 @@ public class BasquetJDBC {
            j.setEquipo(e);
            jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public List<Jugador> returnPlayersTeamPosition(String equipo, String posicion) throws SQLException{
@@ -303,6 +321,8 @@ public class BasquetJDBC {
            j.setEquipo(e);
            jugadores.add(j);
         }
+        rs.close();
+        st.close();
         return jugadores;
     }
     public Jugador returnPlayersTeamMaxBaskets(String equipo) throws SQLException{
@@ -321,6 +341,8 @@ public class BasquetJDBC {
            e.setNombre(rs.getString("team"));
            j.setEquipo(e);
         }
+        rs.close();
+        st.close();
         return j;
     }
     public void eliminarJugadores() throws SQLException{
